@@ -1,35 +1,26 @@
 from collections import deque
 
 
-class MyStack:
+class MyStack :
+    def __init__(self) :
+        self.queue1 = deque()
+        self.queue2 = deque()
 
-    def __init__(self):
-        self.deq_for_push = deque()
-        self.deq_for_pop = deque()
+    def push(self, x) :
 
-    def push(self, x: int) -> None:
-        self.deq_for_push.append(x)
+        self.queue2.append(x)
 
-    def pop(self) -> int:
-        while len(self.deq_for_push)>1:
-            self.deq_for_pop.append(self.deq_for_push.popleft())
+        while self.queue1 :
+            self.queue2.append(self.queue1.popleft())
 
-        pop_value=self.deq_for_push.pop()
-        while len(self.deq_for_pop)>0:
-            self.deq_for_push.append(self.deq_for_pop.popleft())
-            
-        return pop_value
-    def top(self) -> int:
-        while len(self.deq_for_push) > 1:
-            self.deq_for_pop.append(self.deq_for_push.popleft())
+        self.queue1, self.queue2 = self.queue2, self.queue1
 
-        pop_value = self.deq_for_push.pop()
-        while len(self.deq_for_pop) > 0:
-            self.deq_for_push.append(self.deq_for_pop.popleft())
-            
-        self.deq_for_push.append(pop_value)
 
-        return pop_value
-    def empty(self) -> bool:
-        if len(self.deq_for_push) == 0:
-            return True
+    def pop(self):
+        return self.queue1.popleft()
+
+    def top(self):
+        return self.queue1[0]
+
+    def empty(self):
+        return len(self.queue1)==0
